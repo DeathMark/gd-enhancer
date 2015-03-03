@@ -1,11 +1,9 @@
 <?php
 
-namespace gdenhancer\models;
-
 include_once 'Background.php';
 include_once 'Output.php';
 
-class Run {
+class GDEnhancerRun {
 
    public $save;
    protected $actions;
@@ -39,33 +37,31 @@ class Run {
    protected function setLayers() {
       foreach ($this->actions->layers as $layerkey => $layeraction) {
          if (isset($layeraction['image']) === true) {
-            $this->layers[$layerkey] = new LayerImage($layeraction);
+            $this->layers[$layerkey] = new GDEnhancerLayerImage($layeraction);
          } else if (isset($layeraction['text']) === true) {
-            $this->layers[$layerkey] = new LayerText($layeraction);
+            $this->layers[$layerkey] = new GDEnhancerLayerText($layeraction);
          }
       }
    }
 
    protected function setBackground() {
-      $this->background = new Background($this->actions->background);
+      $this->background = new GDEnhancerBackground($this->actions->background);
    }
 
    protected function setBackgroundGIF() {
       include_once 'BackgroundGIF.php';
-      $this->background = new BackgroundGIF($this->actions->background);
+      $this->background = new GDEnhancerBackgroundGIF($this->actions->background);
    }
 
    protected function setSave($quality = 100) {
-      $output = new Output($this->actions->output, $this->background, $this->layers);
+      $output = new GDEnhancerOutput($this->actions->output, $this->background, $this->layers);
       $this->save = $output->save($quality);
    }
 
    protected function setSaveGIF() {
       include_once 'OutputGIF.php';
-      $output = new OutputGIF($this->actions->output, $this->background, $this->layers);
+      $output = new GDEnhancerOutputGIF($this->actions->output, $this->background, $this->layers);
       $this->save = $output->save();
    }
 
 }
-
-?>
